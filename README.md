@@ -34,3 +34,13 @@ https://docs.google.com/document/d/1ffOIGaBRazVTQPXSEjBmu1awAxUMHlpaIh4NCzGd1KI/
 <br>
 <br>
 Os testes da API foram feitos na plataforma Postman.
+<br>
+<br>
+<br>
+<h3>Integrantes</h3>
+<br>
+Erick Lopes - 553927
+<br>
+Gabriel Sá Bragança - 554064
+<br>
+Marco Aurélio Morais Ennes - 553201
