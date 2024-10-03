@@ -21,9 +21,11 @@ O desenvolvimento dessa estrutura foi baseada em boas práticas de desenvolvimen
 <br>
 Models: camada onde contém os modelos e regras de negócios;
 <br>
-Data e Repositories: camada onde podemos tratar os dados e integração com api’s;
+Data e Repositories: camada onde podemos tratar os dados e integração com api’s, respectivamente;
 <br>
 Services: implementação de serviços e casos de usos.
+<br>
+<br>
 <br>
 Segue o link com a estrutura de pastas
 <br>
