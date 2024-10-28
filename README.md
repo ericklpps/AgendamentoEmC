@@ -42,5 +42,3 @@ Os testes da API foram feitos na plataforma Postman.
 Erick Lopes - 553927
 <br>
 Gabriel Sá Bragança - 554064
-<br>
-Marco Aurélio Morais Ennes - 553201
