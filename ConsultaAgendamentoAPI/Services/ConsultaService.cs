@@ -1,42 +1,36 @@
 ﻿using ConsultaAgendamentoAPI.Models;
 using ConsultaAgendamentoAPI.Repositories;
-using System.Net;
-using System.Net.Mail;
+using System.Threading.Tasks;
 
-
-public class ConsultaService
+namespace ConsultaAgendamentoAPI.Services
 {
-    private readonly IConsultaRepository _consultaRepository;
-
-    public ConsultaService(IConsultaRepository consultaRepository)
+    public class ConsultaService
     {
-        _consultaRepository = consultaRepository;
-    }
+        private readonly IConsultaRepository _consultaRepository;
 
-    public async Task ConfirmarConsultaAsync(Consulta consulta)
-    {
-        await _consultaRepository.AddConsultaAsync(consulta);
-        EnviarEmailConfirmacao(consulta);
-    }
-
-    private void EnviarEmailConfirmacao(Consulta consulta)
-    {
-        var smtpClient = new SmtpClient("smtp.example.com")
+        public ConsultaService(IConsultaRepository consultaRepository)
         {
-            Port = 587,
-            Credentials = new NetworkCredential("email@example.com", "senha"),
-            EnableSsl = true,
-        };
+            _consultaRepository = consultaRepository;
+        }
 
-        var mailMessage = new MailMessage
+        public async Task<List<Consulta>> GetConsultasAsync()
         {
-            From = new MailAddress("noreply@consulta.com"),
-            Subject = "Confirmação de Consulta",
-            Body = $"Sua consulta com {consulta.Dentista} foi confirmada para {consulta.DataConsulta.ToShortDateString()} às {consulta.HoraConsulta}.",
-            IsBodyHtml = false,
-        };
-        mailMessage.To.Add(consulta.EmailPaciente);
+            return await _consultaRepository.GetConsultasAsync();
+        }
 
-        smtpClient.Send(mailMessage);
+        public async Task<Consulta?> GetConsultaByIdAsync(int id)
+        {
+            return await _consultaRepository.GetConsultaByIdAsync(id);
+        }
+
+        public async Task ConfirmarConsultaAsync(Consulta consulta)
+        {
+            await _consultaRepository.AddConsultaAsync(consulta);
+        }
+
+        public async Task DeleteConsultaAsync(int id)
+        {
+            await _consultaRepository.DeleteConsultaAsync(id);
+        }
     }
 }
