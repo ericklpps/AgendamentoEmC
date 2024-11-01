@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ConsultaAgendamentoAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/consultas")]
     public class ConsultaController : ControllerBase
     {
         private readonly ConsultaService _consultaService;
@@ -17,33 +17,64 @@ namespace ConsultaAgendamentoAPI.Controllers
 
         // Recupera todas as consultas
         [HttpGet]
-        public async Task<IActionResult> GetConsultas() =>
-            Ok(await _consultaService.GetConsultasAsync());
+        public async Task<IActionResult> GetAll()
+        {
+            var consultas = await _consultaService.GetConsultasAsync();
+            if (consultas == null || !consultas.Any())
+                return NotFound("Nenhuma consulta encontrada.");
+            return Ok(consultas);
+        }
 
-        // Recupera uma consulta pelo ID
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetConsultaById(int id)
+        // Recupera uma consulta específica pelo ID
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
         {
             var consulta = await _consultaService.GetConsultaByIdAsync(id);
-            return consulta == null ? NotFound() : Ok(consulta);
+            if (consulta == null)
+                return NotFound($"Consulta com ID {id} não encontrada.");
+            return Ok(consulta);
         }
 
         // Cria uma nova consulta
         [HttpPost]
-        public async Task<IActionResult> CreateConsulta([FromBody] Consulta consulta)
+        public async Task<IActionResult> Create([FromBody] Consulta consulta)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             await _consultaService.ConfirmarConsultaAsync(consulta);
-            return CreatedAtAction(nameof(GetConsultaById), new { id = consulta.ConsultaId }, consulta);
+            return CreatedAtAction(nameof(GetById), new { id = consulta.ConsultaId }, consulta);
+        }
+
+        // Atualiza uma consulta existente pelo ID
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody] Consulta consultaAtualizada)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var consultaExistente = await _consultaService.GetConsultaByIdAsync(id);
+            if (consultaExistente == null)
+                return NotFound($"Consulta com ID {id} não encontrada para atualização.");
+
+            // Atualizar os dados da consulta
+            consultaExistente.NomePaciente = consultaAtualizada.NomePaciente;
+            consultaExistente.EmailPaciente = consultaAtualizada.EmailPaciente;
+            consultaExistente.DataConsulta = consultaAtualizada.DataConsulta;
+            consultaExistente.HoraConsulta = consultaAtualizada.HoraConsulta;
+            consultaExistente.Dentista = consultaAtualizada.Dentista;
+
+            await _consultaService.ConfirmarConsultaAsync(consultaExistente);
+            return Ok(consultaExistente);
         }
 
         // Deleta uma consulta pelo ID
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteConsulta(int id)
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
         {
             var consulta = await _consultaService.GetConsultaByIdAsync(id);
-            if (consulta == null) return NotFound();
+            if (consulta == null)
+                return NotFound($"Consulta com ID {id} não encontrada para exclusão.");
 
             await _consultaService.DeleteConsultaAsync(id);
             return NoContent();

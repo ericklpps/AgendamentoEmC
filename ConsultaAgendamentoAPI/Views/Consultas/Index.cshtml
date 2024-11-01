@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ConsultaAgendamentoAPI.Models.Consulta>
+
+@{
+    ViewData["Title"] = "Lista de Consultas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Consultas</h2>
+
+<table class="table table-bordered table-striped mt-3">
+    <thead class="thead-dark">
+        <tr>
+            <th>Paciente</th>
+            <th>Email</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Dentista</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var consulta in Model)
+        {
+            <tr>
+                <td>@consulta.NomePaciente</td>
+                <td>@consulta.EmailPaciente</td>
+                <td>@consulta.DataConsulta.ToShortDateString()</td>
+                <td>@consulta.HoraConsulta</td>
+                <td>@consulta.Dentista</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@consulta.ConsultaId" class="btn btn-sm btn-primary">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@consulta.ConsultaId" class="btn btn-sm btn-danger">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-success">Nova Consulta</a>

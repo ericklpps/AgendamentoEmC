@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ConsultaAgendamentoAPI.Models
+namespace ConsultaAgendamentoAPI.ViewModels
 {
-    public class Consulta
+    public class ConsultaEditViewModel
     {
-        [Key]
+        [Required]
         public int ConsultaId { get; set; }
 
         [Required(ErrorMessage = "O nome do paciente é obrigatório.")]
@@ -16,6 +16,7 @@ namespace ConsultaAgendamentoAPI.Models
         public string? EmailPaciente { get; set; }
 
         [Required(ErrorMessage = "A data da consulta é obrigatória.")]
+        [DataType(DataType.Date)]
         public DateTime DataConsulta { get; set; }
 
         [Required(ErrorMessage = "O horário da consulta é obrigatório.")]
@@ -27,6 +28,6 @@ namespace ConsultaAgendamentoAPI.Models
         public string? Dentista { get; set; }
 
         [StringLength(500, ErrorMessage = "As observações devem ter no máximo 500 caracteres.")]
-        public string? Observacoes { get; set; }  // Campo opcional para informações adicionais
+        public string? Observacoes { get; set; }
     }
 }

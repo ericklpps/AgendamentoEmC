@@ -1,0 +1,20 @@
+﻿@model ConsultaAgendamentoAPI.Models.Consulta
+
+@{
+    ViewData["Title"] = "Excluir Consulta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Excluir Consulta</h2>
+
+<p>Tem certeza de que deseja excluir esta consulta?</p>
+<p><strong>Nome do Paciente:</strong> @Model.NomePaciente</p>
+<p><strong>Data:</strong> @Model.DataConsulta.ToShortDateString()</p>
+<p><strong>Hora:</strong> @Model.HoraConsulta</p>
+<p><strong>Dentista:</strong> @Model.Dentista</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="ConsultaId" />
+    <button type="submit" class="btn btn-danger">Excluir</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
