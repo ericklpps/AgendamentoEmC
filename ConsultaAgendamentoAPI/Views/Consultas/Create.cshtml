@@ -1,0 +1,49 @@
+﻿@model ConsultaAgendamentoAPI.ViewModels.ConsultaCreateViewModel
+
+@{
+    ViewData["Title"] = "Nova Consulta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Nova Consulta</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label>Nome do Paciente</label>
+        <input asp-for="NomePaciente" class="form-control" />
+        <span asp-validation-for="NomePaciente" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Email do Paciente</label>
+        <input asp-for="EmailPaciente" class="form-control" />
+        <span asp-validation-for="EmailPaciente" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Data da Consulta</label>
+        <input asp-for="DataConsulta" type="date" class="form-control" />
+        <span asp-validation-for="DataConsulta" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Hora da Consulta</label>
+        <input asp-for="HoraConsulta" class="form-control" />
+        <span asp-validation-for="HoraConsulta" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Dentista</label>
+        <input asp-for="Dentista" class="form-control" />
+        <span asp-validation-for="Dentista" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Observações</label>
+        <textarea asp-for="Observacoes" class="form-control"></textarea>
+        <span asp-validation-for="Observacoes" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
